@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "autoreview"
+version = "0.1.0"
+description = ""
+authors = ["outragedline <outragedline@proton.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pexpect = "^4.9.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
