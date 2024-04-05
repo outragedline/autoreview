@@ -1,6 +1,8 @@
 import os
 import subprocess
 
+import pexpect
+
 
 class Lista:
     def __init__(self, listadir) -> None:
@@ -18,11 +20,12 @@ class Lista:
                 if hasattr(self, binary[0]):
                     try:
                         atv = getattr(self, binary[0])
-                        atv(binary)
-                        print(binary, relative_path, root)
+                        atv(f"{root}/{binary[0]}")
 
-                    except:
-                        pass
+                    except pexpect.exceptions.EOF as e:
+                        print(e)
+                    except Exception as e:
+                        print(e)
 
     def ccompile(self):
         output_dir = os.path.join(os.getcwd(), "binarios")
