@@ -1,5 +1,6 @@
 import os
 import subprocess
+import datetime
 
 import pexpect
 
@@ -20,12 +21,16 @@ class Lista:
                 if hasattr(self, binary[0]):
                     try:
                         atv = getattr(self, binary[0])
-                        atv(f"{root}/{binary[0]}")
+                        curatv = f"{root}/{binary[0]}{binary[1]}"
+                        atv(curatv)
+                        print(f"Atividade: {curatv} passou em todos os testes")
 
                     except pexpect.exceptions.EOF as e:
+                        self.log(e)
                         print(e)
                     except Exception as e:
                         print(e)
+                        self.log(e)
 
     def ccompile(self):
         output_dir = os.path.join(os.getcwd(), "binarios")
@@ -45,3 +50,15 @@ class Lista:
                     input_file_path = os.path.join(root, file)
                     subprocess.run(["gcc", input_file_path, "-o", output_file_path])
         self.listadir = output_dir
+
+    def log(self, e):
+        with open(os.path.join(os.getcwd(), "logs.txt"), "a") as file:
+            log = "\n[{timestamp}]\n{exception}\n{separator}\n"
+
+            file.write(
+                log.format(
+                    timestamp=datetime.datetime.now(),
+                    exception=e,
+                    separator="_" * 50,
+                )
+            )
